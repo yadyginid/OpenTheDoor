@@ -1,28 +1,17 @@
-// Copyright Epic Games, Inc. All Rights Reserved.
+// Fill out your copyright notice in the Description page of Project Settings.
 
 #pragma once
 
 #include "CoreMinimal.h"
-#include "GameFramework/Character.h"
-#include "Logging/LogMacros.h"
-#include "AbilitySystemComponent.h"
-#include "AbilitySystemInterface.h"
-#include "GAS/CharacterAttributeSet.h"
-#include "OpenTheDoorCharacter.generated.h"
+#include "ABaseCharacter.h"
+#include "PlayerCharacter.generated.h"
 
-class USpringArmComponent;
-class UCameraComponent;
-class UInputMappingContext;
-class UInputAction;
-struct FInputActionValue;
 
-DECLARE_LOG_CATEGORY_EXTERN(LogTemplateCharacter, Log, All);
-
-UCLASS(config=Game)
-class AOpenTheDoorCharacter : public ACharacter, public IAbilitySystemInterface
+UCLASS()
+class OPENTHEDOOR_API APlayerCharacter : public ABaseCharacter
 {
 	GENERATED_BODY()
-	
+
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
 	USpringArmComponent* CameraBoom;
 	
@@ -45,37 +34,22 @@ class AOpenTheDoorCharacter : public ACharacter, public IAbilitySystemInterface
 	UInputAction* SprintAction;
 	
 public:
-	AOpenTheDoorCharacter();
-	virtual UAbilitySystemComponent* GetAbilitySystemComponent() const override {return AbilitySystemComp;}
-
+	APlayerCharacter();
+	
 protected:
-	void Move(const FInputActionValue& Value);
-	void Look(const FInputActionValue& Value);
-
-protected:
-	UPROPERTY(BlueprintReadOnly)
-	UAbilitySystemComponent* AbilitySystemComp;
-
-	UPROPERTY(EditDefaultsOnly, Category = "Abilities")
-	TArray<TSubclassOf<UGameplayAbility>> StartedAbilities;
-
-	UPROPERTY(EditDefaultsOnly, Category = "Abilities")
-	TArray<TSubclassOf<UGameplayEffect>> StartedGameplayEffects;
-
 	UPROPERTY(EditDefaultsOnly, Category = "Abilities")
 	TSubclassOf<UGameplayAbility> SprintAbility;
 	
 	virtual void NotifyControllerChanged() override;
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
+	virtual void InitAbilitySystem() override;
+	
+	void Move(const FInputActionValue& Value);
+	void Look(const FInputActionValue& Value);
+	void SprintOn();
+	void SprintOff();
 
 public:
 	FORCEINLINE class USpringArmComponent* GetCameraBoom() const { return CameraBoom; }
 	FORCEINLINE class UCameraComponent* GetFollowCamera() const { return FollowCamera; }
-
-private:
-	void InitAbilitySystem();
-
-	void SprintOn();
-	void SprintOff();
 };
-
