@@ -6,7 +6,7 @@ public class OpenTheDoor : ModuleRules
 {
 	public OpenTheDoor(ReadOnlyTargetRules Target) : base(Target)
 	{
-		PrivateDependencyModuleNames.AddRange(new string[] { "AIModule" });
+		PrivateDependencyModuleNames.AddRange(new string[] { "AIModule", "StateTreeModule", "OpenColorIOLib", "GameplayStateTreeModule"});
 		PCHUsage = PCHUsageMode.UseExplicitOrSharedPCHs;
 
 		PublicDependencyModuleNames.AddRange(new string[] { "Core", "CoreUObject", "Engine", "InputCore", "EnhancedInput",  "GameplayAbilities", "GameplayTags", "GameplayTasks" });

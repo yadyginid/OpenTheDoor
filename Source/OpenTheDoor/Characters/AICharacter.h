@@ -10,5 +10,10 @@ UCLASS()
 class OPENTHEDOOR_API AAICharacter : public ABaseCharacter
 {
 	GENERATED_BODY()
+
+public:
+	UPROPERTY(EditInstanceOnly)
+	TArray<AActor*> PatrolPoints;
 	
+	int32 CurrentPatrolIndex = 0;
 };

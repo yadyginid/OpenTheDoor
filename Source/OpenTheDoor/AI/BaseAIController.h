@@ -7,6 +7,7 @@
 #include "AIController.h"
 #include "GameFramework/Character.h"
 #include "Perception/AIPerceptionTypes.h"
+#include "Components/StateTreeAIComponent.h"
 #include "BaseAIController.generated.h"
 
 class UAIPerceptionComponent;
@@ -23,6 +24,9 @@ public:
 	UFUNCTION(BlueprintCallable, Category="AI")
 	AActor* GetCurrentTarget() const { return CurrentTarget; }
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	UStateTreeAIComponent* StateTreeAIComponent;
+	
 protected:
 	virtual void OnPossess(APawn* InPawn) override;
 

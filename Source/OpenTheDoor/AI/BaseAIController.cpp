@@ -12,6 +12,7 @@ ABaseAIController::ABaseAIController()
 	SetPerceptionComponent(*PerceptionComp);
 
 	SightConfig = CreateDefaultSubobject<UAISenseConfig_Sight>(TEXT("SightConfig"));
+	StateTreeAIComponent = CreateDefaultSubobject<UStateTreeAIComponent>("StateTreeAIComponent");
 	
 	SightConfig->SightRadius = 1000.f;
 	SightConfig->LoseSightRadius = 1500.f;
