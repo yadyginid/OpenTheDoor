@@ -7,6 +7,8 @@
 #include "Logging/LogMacros.h"
 #include "AbilitySystemComponent.h"
 #include "AbilitySystemInterface.h"
+#include "OpenTheDoor/Componets/HealthComponent.h"
+#include "OpenTheDoor/GAS/CharacterAttributeSet.h"
 #include "ABaseCharacter.generated.h"
 
 class USpringArmComponent;
@@ -35,7 +37,13 @@ protected:
 
 	UPROPERTY(EditDefaultsOnly, Category = "Abilities")
 	TArray<TSubclassOf<UGameplayEffect>> StartedGameplayEffects;
-	
+
+	UPROPERTY()
+	UCharacterAttributeSet* CharacterAttributeSet;
+
+	UPROPERTY(EditDefaultsOnly)
+	UHealthComponent* HealthComponent;
+
 	virtual void NotifyControllerChanged() override;
 	virtual void InitAbilitySystem();
 };

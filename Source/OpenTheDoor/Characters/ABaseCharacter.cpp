@@ -5,6 +5,7 @@
 #include "Components/CapsuleComponent.h"
 #include "GameFramework/CharacterMovementComponent.h"
 #include "GameFramework/Controller.h"
+#include "OpenTheDoor/Componets/HealthComponent.h"
 #include "OpenTheDoor/GAS/CharacterAttributeSet.h"
 
 DEFINE_LOG_CATEGORY(LogTemplateCharacter);
@@ -28,11 +29,16 @@ ABaseCharacter::ABaseCharacter()
 	GetCharacterMovement()->BrakingDecelerationFalling = 1500.0f;
 	
 	AbilitySystemComp = CreateDefaultSubobject<UAbilitySystemComponent>(TEXT("AbilitySystemComp"));
+	CharacterAttributeSet = CreateDefaultSubobject<UCharacterAttributeSet>(TEXT("AttributeSet"));
+
+	HealthComponent = CreateDefaultSubobject<UHealthComponent>("HealthCompoennt");
 }
 
 void ABaseCharacter::NotifyControllerChanged()
 {
 	Super::NotifyControllerChanged();
+	
+	HealthComponent->Init();
 	InitAbilitySystem();
 }
 
@@ -40,7 +46,8 @@ void ABaseCharacter::InitAbilitySystem()
 {
 	if (AbilitySystemComp)
 	{
-		AbilitySystemComp->AddSet<UCharacterAttributeSet>();
+		AbilitySystemComp->InitAbilityActorInfo(this, this);
+		
 		for (const TSubclassOf<UGameplayAbility>& GAClass : StartedAbilities)
 		{
 			FGameplayAbilitySpec GASpec = FGameplayAbilitySpec(GAClass);

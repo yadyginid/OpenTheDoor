@@ -3,7 +3,9 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "GameplayEffectTypes.h"
 #include "Blueprint/StateTreeTaskBlueprintBase.h"
+#include "OpenTheDoor/Characters/PlayerCharacter.h"
 #include "Perception/AIPerceptionTypes.h"
 #include "GSTT_Manager.generated.h"
 
@@ -19,7 +21,7 @@ class OPENTHEDOOR_API UGSTT_Manager : public UStateTreeTaskBlueprintBase
 public:
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category="Output")
 	AActor* TargetActor;
-
+	
 	virtual EStateTreeRunStatus EnterState(FStateTreeExecutionContext& Context, const FStateTreeTransitionResult& Transition) override;
 
 protected:
@@ -31,10 +33,22 @@ protected:
 
 	UPROPERTY()
 	UAIPerceptionComponent* AIPerceptionComponent;
-
+	
+	UPROPERTY()
+	UAbilitySystemComponent* TargetABS;
+	
 	FGameplayTag AimEventTag;
 	FGameplayTag NoAimingEventTag;
+	FGameplayTag SafeZoneTag;
+
+	FDelegateHandle SafeZoneHandle;
 	
 	UFUNCTION()
 	void OnTargetPerceptionUpdated(AActor* Actor, FAIStimulus Stimulus);
+
+	UFUNCTION()
+	void OnSafeZoneTagChanged(FGameplayTag GameplayTag, int32 NewCount);
+	
+	void BindOnSafeZone();
+	void UnbindSafeZone();
 };

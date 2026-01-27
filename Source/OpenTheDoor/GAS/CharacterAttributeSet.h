@@ -5,6 +5,7 @@
 #include "CoreMinimal.h"
 #include "AttributeSet.h"
 #include "AbilitySystemComponent.h"
+#include "GameplayEffectExtension.h"
 #include "CharacterAttributeSet.generated.h"
 
 #define ATTRIBUTE_ACCESSORS(ClassName, PropertyName) \
@@ -20,6 +21,13 @@ class OPENTHEDOOR_API UCharacterAttributeSet : public UAttributeSet
 
 public:
 	UPROPERTY(BlueprintReadOnly, Category = "Health")
-	FGameplayAttributeData Health = 100.f;
+	FGameplayAttributeData Health = 0.f;
 	ATTRIBUTE_ACCESSORS(UCharacterAttributeSet, Health);
+
+	UPROPERTY(BlueprintReadOnly, Category = "MaxHealth")
+	FGameplayAttributeData MaxHealth = 0.f;
+	ATTRIBUTE_ACCESSORS(UCharacterAttributeSet, MaxHealth);
+
+	virtual void PreAttributeChange(const FGameplayAttribute& Attribute,float& NewValue) override;
+	virtual void PostGameplayEffectExecute(const FGameplayEffectModCallbackData& Data) override;
 };
